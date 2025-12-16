@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,8 +44,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class Question(
+    val text: String,
+    val answer: Boolean
+)
+
 @Composable
 fun GeoQuiz(modifier: Modifier = Modifier) {
+    val questions = listOf(
+        Question("There are five officially recognized oceans on Earth.", true),
+        Question("Africa is the only continent located in all four hemispheres", true),
+        Question("The Suez Canal connects the Mediterranean Sea with the Persian Gulf.", false),
+        Question("The Amazon River is the longest river in the world.", false),
+        Question("Canada has the longest coastline of any country in the world.", true),
+        Question("Iceland is not entirely covered by ice.", true)
+    )
+
+    var indexQuestion by remember { mutableStateOf(0) }
+
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -59,6 +79,19 @@ fun GeoQuiz(modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier.padding(start = 10.dp)
+            )
+        }
+        // question
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(25.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = questions[indexQuestion].text,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center
             )
         }
     }
