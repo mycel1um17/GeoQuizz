@@ -59,15 +59,17 @@ data class Question(
 @Composable
 fun GeoQuiz(modifier: Modifier = Modifier) {
     val questions = listOf(
-        Question("There are five officially recognized oceans on Earth.", true),
-        Question("Africa is the only continent located in all four hemispheres", true),
-        Question("The Suez Canal connects the Mediterranean Sea with the Persian Gulf.", false),
-        Question("The Amazon River is the longest river in the world.", false),
-        Question("Canada has the longest coastline of any country in the world.", true),
-        Question("Iceland is not entirely covered by ice.", true)
+        Question("Canberra is the capital of Australia.", true),
+        Question("The Pacific Ocean is larger than the Atlantic Ocean.", true),
+        Question("The Suez Canal connects the Red Sea and the Indian Ocean.", false),
+        Question("The source of the Nile River is in Egypt.", false),
+        Question("The Amazon River is the longest river in the Americas.", true),
+        Question("Lake Baikal is the world's oldest and deepest freshwater lake.", true)
     )
 
     var indexQuestion by remember { mutableStateOf(0) }
+    var showAnswerButtons by remember { mutableStateOf(true) }
+    var correctAnswers by remember { mutableStateOf(0) }
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -102,53 +104,69 @@ fun GeoQuiz(modifier: Modifier = Modifier) {
             )
         }
         //true false
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Button(
-                onClick = {
-                },
+        if (showAnswerButtons)
+        {
+            Row(
                 modifier = Modifier
-                    .width(90.dp)
-                    .height(40.dp),
-                shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("TRUE", fontSize = 14.sp)
-            }
+                Button(
+                    onClick = {
+                        if (questions[indexQuestion].answer == true) {
+                            correctAnswers++
+                        }
+                        showAnswerButtons = false
+                    },
+                    modifier = Modifier
+                        .width(90.dp)
+                        .height(40.dp),
+                    shape = RectangleShape,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                ) {
+                    Text("TRUE", fontSize = 14.sp)
+                }
 
-            Spacer(modifier = Modifier.width(120.dp))
+                Spacer(modifier = Modifier.width(120.dp))
 
-            Button(
-                onClick = {
-                },
-                modifier = Modifier
-                    .width(90.dp)
-                    .height(40.dp),
-                shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
-            ) {
-                Text("FALSE", fontSize = 14.sp)
+                Button(
+                    onClick = {
+                        if (questions[indexQuestion].answer == false) {
+                            correctAnswers++
+                        }
+                        showAnswerButtons = false
+                    },
+                    modifier = Modifier
+                        .width(90.dp)
+                        .height(40.dp),
+                    shape = RectangleShape,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                ) {
+                    Text("FALSE", fontSize = 14.sp)
+                }
             }
         }
         // next
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Button(
-                onClick = {
-                },
+        if (indexQuestion < questions.size - 1)
+        {
+            Row(
                 modifier = Modifier
-                    .height(40.dp),
-                shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                horizontalArrangement = Arrangement.End
             ) {
-                Text("NEXT >", fontSize = 14.sp)
+                Button(
+                    onClick = {
+                        indexQuestion = (indexQuestion + 1) % questions.size
+                        showAnswerButtons = true
+                    },
+                    modifier = Modifier
+                        .height(40.dp),
+                    shape = RectangleShape,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+                ) {
+                    Text("NEXT >", fontSize = 14.sp)
+                }
             }
         }
     }
