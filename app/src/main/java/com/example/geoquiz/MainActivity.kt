@@ -59,12 +59,13 @@ data class Question(
 @Composable
 fun GeoQuiz(modifier: Modifier = Modifier) {
     val questions = listOf(
-        Question("Canberra is the capital of Australia.", true),
-        Question("The Pacific Ocean is larger than the Atlantic Ocean.", true),
-        Question("The Suez Canal connects the Red Sea and the Indian Ocean.", false),
-        Question("The source of the Nile River is in Egypt.", false),
-        Question("The Amazon River is the longest river in the Americas.", true),
-        Question("Lake Baikal is the world's oldest and deepest freshwater lake.", true)
+        Question("There are five officially recognized oceans on Earth.", true),
+        Question("Africa is the only continent located in all four hemispheres", true),
+        Question("The Suez Canal connects the Mediterranean Sea with the Persian Gulf.", false),
+        Question("The Amazon River is the longest river in the world.", false),
+        Question("Canada has the longest coastline of any country in the world.", true),
+        Question("Iceland is not entirely covered by ice.", true)
+
     )
 
     var indexQuestion by remember { mutableStateOf(0) }
